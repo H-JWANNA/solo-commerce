@@ -1,13 +1,43 @@
+#Aws DB and Jpa and Jwt and debug setting
 spring:
-  # H2 Setting Info (H2 Console에 접속하기 위한 설정정보 입력)
-  h2:
-    console:
-      enabled: true # H2 Console을 사용할지 여부 (H2 Console은 H2 Database를 UI로 제공해주는 기능)
-      path: /h2 # H2 Console의 Path
+  server:
+    port: 8080
+    servlet:
+      encoding:
+        force-response: true
 
-  # Database Setting Info (Database를 H2로 사용하기 위해 H2연결 정보 입력)
+  # db
   datasource:
-    driver-class-name: org.h2.Driver # Database를 H2로 사용하겠다.
-    url: jdbc:h2:~/test # H2 접속 정보
-    username: sa # H2 접속 시 입력할 username
-    password: # H2 접속 시 입력할 password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${LOCAL_DB_URL}?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+
+  # jpa
+  jpa:
+    # auto create schema
+    hibernate:
+      ddl-auto: create
+    # show sql query
+    show-sql: true
+    # SQL pretty print
+    properties:
+      hibernate:
+        format_sql: true
+    # colorful console
+    output:
+      ansi:
+        enabled: always
+
+# jwt
+jwt:
+  access-token-expiration-minutes: 10
+  refresh-token-expiration-minutes: 1440
+
+## logging above debugs
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
