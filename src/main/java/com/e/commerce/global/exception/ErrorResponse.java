@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
+import jakarta.validation.ConstraintViolation;
 import lombok.Getter;
 
 @Getter
