@@ -1,8 +1,7 @@
 package com.e.commerce.global.exception.controller;
 
-import javax.validation.ConstraintViolationException;
-
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,6 +16,7 @@ import org.springframework.web.multipart.MultipartException;
 import com.e.commerce.global.exception.BusinessLogicException;
 import com.e.commerce.global.exception.ErrorResponse;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,17 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionAdvice {
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorResponse handleMethodArgumentNotValidException(
-		MethodArgumentNotValidException e) {
+	public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
 
 		return response;
 	}
 
 	@ExceptionHandler({
-		IllegalStateException.class, IllegalArgumentException.class,
-		TypeMismatchException.class, HttpMessageNotReadableException.class,
-		MissingServletRequestParameterException.class, MultipartException.class,
+		IllegalStateException.class,
+		IllegalArgumentException.class,
+		TypeMismatchException.class,
+		HttpMessageNotReadableException.class,
+		MissingServletRequestParameterException.class,
+		MultipartException.class,
 	})
 	public ErrorResponse handleBadRequestException(Exception e) {
 		log.debug("Bad request exception occurred: {}", e.getMessage(), e);
@@ -54,6 +56,15 @@ public class GlobalExceptionAdvice {
 		final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
 
 		return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getCode()));
+	}
+
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorResponse handleSQLIntegrityConstraintViolationException(DataIntegrityViolationException e) {
+		log.error("# handle Exception: {}", e.getMessage());
+		final ErrorResponse response = ErrorResponse.of(HttpStatus.BAD_REQUEST, e.getMessage());
+
+		return response;
 	}
 
 	@ExceptionHandler
