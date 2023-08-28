@@ -1,4 +1,4 @@
-package com.e.commerce.controller;
+package com.e.commerce.application.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class HomeController {
 
-	@GetMapping(value = {"/", "", "/index"})
-	public String index() {
-		return "/index";
+	@GetMapping(value = {"/", "", "/home"})
+	public String home() {
+		return "home";
 	}
 }

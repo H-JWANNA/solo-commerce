@@ -1,0 +1,12 @@
+<!-- 공통 영역 메뉴 코드 -->
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav style="text-align: center" th:fragment="menu">
+    <a href="../home.html" th:href="@{/}" class="text-decoration-none">홈</a> |
+    <a href="../search-store.html" th:href="@{/stores}">매장으로 검색</a> |
+    <a href="../search-product.html" th:href="@{/products}">상품으로 검색</a>
+</nav>
+</body>
+</html>

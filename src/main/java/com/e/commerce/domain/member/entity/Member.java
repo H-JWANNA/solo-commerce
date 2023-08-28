@@ -1,9 +1,14 @@
 package com.e.commerce.domain.member.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.e.commerce.domain.common.BaseEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,4 +46,11 @@ public class Member extends BaseEntity {
 	@Builder.Default
 	@Column(name = "point", nullable = false)
 	private Integer point = 0;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles = new ArrayList<>();
+
+	public void updateRoles(List<String> roles) {
+		this.roles = roles;
+	}
 }
