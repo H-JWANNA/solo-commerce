@@ -1,0 +1,22 @@
+<!-- 공통 영역 헤더 코드 -->
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<header style="text-align: right" th:fragment="header">
+    <span sec:authorize="isAuthenticated()">
+            <span sec:authorize="hasRole('USER')">
+              <a href="/members/my-page">My Page</a> |
+            </span>
+        <a href="/logout">Logout</a>
+        <span th:text="${#authentication.name}">홍길동</span>님
+    </span>
+
+    <span sec:authorize="!isAuthenticated()">
+        <a href="/register">Register</a> |
+        <a href="/auths/login-form">Login</a>
+    </span>
+</header>
+</body>
+</html>
