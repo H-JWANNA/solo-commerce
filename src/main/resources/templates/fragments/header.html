@@ -7,15 +7,15 @@
 <header style="text-align: right" th:fragment="header">
     <span sec:authorize="isAuthenticated()">
             <span sec:authorize="hasRole('USER')">
-              <a href="/members/my-page">My Page</a> |
+              <a th:href="@{/members/my-page}">My Page</a> |
             </span>
-        <a href="/logout">Logout</a>
+        <a th:href="@{/logout}">Logout</a>
         <span th:text="${#authentication.name}">홍길동</span>님
     </span>
 
     <span sec:authorize="!isAuthenticated()">
-        <a href="/register">Register</a> |
-        <a href="/auths/login-form">Login</a>
+        <a th:href="@{/register}">Register</a> |
+        <a th:href="@{/auths/login-form}">Login</a>
     </span>
 </header>
 </body>
