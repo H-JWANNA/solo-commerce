@@ -1,0 +1,39 @@
+<!-- 검색 페이지 레이아웃 -->
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<body>
+<head>
+    <title>Search | 홍키트</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- CSS Stylesheet -->
+</head>
+<body>
+<div class="container-lg">
+    <div th:replace="~{fragments/header::header}"></div>
+    <hr>
+
+    <div th:replace="~{fragments/menu::menu}"></div>
+    <hr>
+
+    <form style="margin-top: 20px; margin-bottom: 20px" action="/search" method="post">
+        <div>
+            <label>
+                <input type="text" name="text" class="search-control" placeholder="검색어를 입력하세요">
+            </label>
+            <button type="submit" style="margin-left: 20px">검색</button>
+        </div>
+    </form>
+
+    <div layout:fragment="content"></div>
+    <hr>
+
+    <div th:replace="~{fragments/footer::footer}"></div>
+    <hr>
+</div>
+<!-- Script -->
+</body>
+
+</body>
+</html>
