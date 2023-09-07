@@ -34,9 +34,10 @@ public class SecurityConfiguration {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> {
-				auth.requestMatchers("*").permitAll();
-				auth.requestMatchers("auths/**").permitAll();
 				auth.requestMatchers("members/**").hasRole("USER");
+				auth.requestMatchers("auths/**").permitAll();
+				auth.requestMatchers("search/**").permitAll();
+				auth.requestMatchers("/**").permitAll();
 			});
 
 		http
