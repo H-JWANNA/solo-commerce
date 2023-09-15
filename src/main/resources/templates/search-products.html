@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/search-layout}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>상품 검색 | 홍키트</title>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <table style="table-layout: fixed">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">상품명</th>
+            <th scope="col">가격</th>
+            <th scope="col">상품 정보</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product: ${productList}">
+            <td th:text="${product.productName}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.information}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav th:replace="~{fragments/pageNavBar::pageNavBar(${pageInfo}, 'products')}"></nav>
+</div>
+</body>
+</html>
