@@ -15,12 +15,13 @@ import com.e.commerce.application.controller.HomeController;
 
 @WebMvcTest(controllers = HomeController.class,
 	excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@DisplayName("[Home] Controller Test")
 public class HomeControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
-	@DisplayName("홈 Controller Test")
+	@DisplayName("메인 페이지")
 	void homeTest() throws Exception {
 		// when
 		ResultActions actions =

@@ -28,6 +28,7 @@ import com.e.commerce.domain.store.service.StoreService;
 @WebMvcTest(controllers = SearchController.class,
 	excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @MockBean(JpaMetamodelMappingContext.class)
+@DisplayName("[Search] Controller Test")
 public class SearchControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -39,7 +40,7 @@ public class SearchControllerTest {
 	private ProductService productService;
 
 	@Test
-	@DisplayName("상품 검색 폼 Controller Test")
+	@DisplayName("[Product] 리스트 조회")
 	void searchProductsFormTest() throws Exception {
 		// given
 		List<ProductResponseDto> products = getStubProducts();
@@ -65,7 +66,7 @@ public class SearchControllerTest {
 	}
 
 	@Test
-	@DisplayName("매장 검색 폼 Controller Test")
+	@DisplayName("[Store] 리스트 조회")
 	void searchStoresFormTest() throws Exception {
 		// given
 		List<StoreResponseDto> stores = getStubStores();
