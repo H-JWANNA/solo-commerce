@@ -23,6 +23,7 @@ import com.e.commerce.domain.member.service.MemberService;
 @WebMvcTest(controllers = RegisterController.class,
 	excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @MockBean(JpaMetamodelMappingContext.class)
+@DisplayName("[Register] Controller Test")
 public class RegisterControllerTest {
 	@Autowired
 	MockMvc mockMvc;
@@ -31,7 +32,7 @@ public class RegisterControllerTest {
 	private MemberService memberService;
 
 	@Test
-	@DisplayName("회원 가입 폼 Controller Test")
+	@DisplayName("회원 가입 폼")
 	void registerFormTest() throws Exception {
 		// when
 		ResultActions actions =
@@ -45,7 +46,7 @@ public class RegisterControllerTest {
 	}
 
 	@Test
-	@DisplayName("회원 가입 Controller Test")
+	@DisplayName("회원 가입 로직")
 	void registerTest() throws Exception {
 		// given
 		RegisterRequest request = getStubRegister();
