@@ -1,9 +1,10 @@
 package com.e.commerce.global.config;
 
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.e.commerce.global.security.handler.CustomAuthenticationFailureHandler;
 import com.e.commerce.global.security.handler.CustomAuthenticationSuccessHandler;
@@ -38,8 +40,7 @@ public class SecurityConfiguration {
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring()
-			.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-			.requestMatchers(HttpMethod.POST, "/registers");
+			.requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 	}
 
 	@Bean
@@ -48,13 +49,31 @@ public class SecurityConfiguration {
 			.headers(header -> header
 				.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 
+		// cors 설정
+		http
+			.cors(cors -> cors.configurationSource(
+				request -> {
+					CorsConfiguration config = new CorsConfiguration();
+					config.addAllowedOrigin("http://localhost:3000");
+					config.addAllowedMethod("*");
+					config.setAllowCredentials(true);
+					config.setAllowedHeaders(List.of("Origin", "X-Requested-With", "Content-Type", "Accept",
+						"Authorization", "Refresh"));
+					config.setExposedHeaders(List.of("Authorization", "Refresh"));
+					config.setMaxAge(3600L);
+
+					return config;
+				}
+			));
+
 		// csrf 보안 disable & 특정 리퀘스트 권한 부여
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(auth -> {
-				auth.requestMatchers("members/**").hasRole("USER");
-				auth.requestMatchers("auths/**").permitAll();
+				auth.requestMatchers("members/register").permitAll();
+				auth.requestMatchers("auth/login").permitAll();
 				auth.requestMatchers("search/**").permitAll();
+				auth.requestMatchers("members/**").hasRole("USER");
 				auth.requestMatchers("/**").permitAll();
 			});
 
