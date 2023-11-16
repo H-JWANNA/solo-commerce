@@ -2,7 +2,6 @@ package com.e.commerce.global.config;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,11 +35,15 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfiguration {
 	private final JwtTokenProvider jwtTokenProvider;
 
+	private static final String[] AUTH_WHITELIST = {
+		"api-docs", "api-docs/**", "swagger", "swagger-ui/**"
+	};
+
 	// 정적 자원에 대한 Security Ignoring 처리
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring()
-			.requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+			.requestMatchers(AUTH_WHITELIST);
 	}
 
 	@Bean
@@ -74,7 +77,7 @@ public class SecurityConfiguration {
 				auth.requestMatchers("auth/login").permitAll();
 				auth.requestMatchers("search/**").permitAll();
 				auth.requestMatchers("members/**").hasRole("USER");
-				auth.requestMatchers("/**").permitAll();
+				auth.anyRequest().authenticated();
 			});
 
 		// JWT 인증으로 인한 세션 불필요
